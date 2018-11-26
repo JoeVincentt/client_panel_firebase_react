@@ -51,7 +51,8 @@ class AppNavbar extends Component {
               {isAuthenticated ? (
                 <li className="nav-item">
                   <Link to="/" className="nav-link">
-                    Dashboard
+                    {" "}
+                    <i className="fas fa-clipboard-list" /> Dashboard{" "}
                   </Link>
                 </li>
               ) : null}
@@ -59,18 +60,26 @@ class AppNavbar extends Component {
 
             {isAuthenticated ? (
               <ul className="navbar-nav ml-auto">
-                <li className="van-item">
+                <li className="nav-item">
                   <a href="#!" className="nav-link">
-                    {auth.email}
+                    {" "}
+                    <i className="far fa-envelope-open" /> {auth.email}{" "}
                   </a>
                 </li>
-                <li className="van-item">
+                <li className="nav-item">
+                  <Link to="/Settings" className="nav-link">
+                    {" "}
+                    <i className="fas fa-cog" /> Settings{" "}
+                  </Link>
+                </li>
+                <li className="nav-item">
                   <a
                     href="#!"
                     className="nav-link"
                     onClick={this.onLogoutClick}
                   >
-                    Logout
+                    {" "}
+                    <i className="fas fa-door-open" /> Logout{" "}
                   </a>
                 </li>
               </ul>
@@ -84,12 +93,14 @@ class AppNavbar extends Component {
 
 AppNavbar.propTypes = {
   firebase: PropTypes.object.isRequired,
-  auth: PropTypes.object.isRequired
+  auth: PropTypes.object.isRequired,
+  settings: PropTypes.object.isRequired
 };
 
 export default compose(
   firebaseConnect(),
   connect((state, props) => ({
-    auth: state.firebase.auth
+    auth: state.firebase.auth,
+    settings: state.settings
   }))
 )(AppNavbar);
