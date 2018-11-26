@@ -27,7 +27,7 @@ firebase.initializeApp(firebaseConfig);
 //Init firestore
 // const firestore = firebase();
 
-//Get rid of warning DateStamp!
+//Get rid of WARNING DateStamp!
 const settings = { timestampsInSnapshots: true };
 firebase.firestore().settings(settings);
 
@@ -45,9 +45,22 @@ const rootReducer = combineReducers({
   settings: settingsReducer
 });
 
+//Check for settings in Local Storage
+if (localStorage.getItem("settings") == null) {
+  //Default settings
+  const defaultSettings = {
+    disableBalanceOnAdd: true,
+    disableBalanceOnEdit: false,
+    allowRegistration: false
+  };
+
+  //Set to localstorage
+  localStorage.setItem("settings", JSON.stringify(defaultSettings));
+}
+
 //Create initial state
 // Create store with reducers and initial state
-const initialState = {};
+const initialState = { settings: JSON.parse(localStorage.getItem("settings")) };
 
 //Create store
 const store = createStoreWithFirebase(
