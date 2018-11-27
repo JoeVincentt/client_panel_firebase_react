@@ -32,11 +32,14 @@ class AppNavbar extends Component {
   render() {
     const { isAuthenticated } = this.state;
     const { auth } = this.props;
+    const { allowRegistration } = this.props.settings;
     return (
       <nav className="navbar navbar-expand-md navbar-dark bg-primary mb-4">
         <div className="container">
           <Link to="/" className="navbar-brand">
-            Client Panel
+            {" "}
+            <i className="fab fa-contao" style={{ fontSize: "26px" }} />
+            lient Panel{" "}
           </Link>
           <button
             className="navbar-toggler"
@@ -81,6 +84,23 @@ class AppNavbar extends Component {
                     {" "}
                     <i className="fas fa-door-open" /> Logout{" "}
                   </a>
+                </li>
+              </ul>
+            ) : null}
+
+            {allowRegistration && !isAuthenticated ? (
+              <ul className="navbar-nav mr-auto">
+                <li className="nav-item">
+                  <Link to="/login" className="nav-link">
+                    {" "}
+                    <i className="fas fa-door-open" /> Login{" "}
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link to="/register" className="nav-link">
+                    {" "}
+                    <i className="fas fa-user-plus" /> Register{" "}
+                  </Link>
                 </li>
               </ul>
             ) : null}
