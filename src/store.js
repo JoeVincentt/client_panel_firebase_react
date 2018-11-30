@@ -62,13 +62,24 @@ if (localStorage.getItem("settings") == null) {
 // Create store with reducers and initial state
 const initialState = { settings: JSON.parse(localStorage.getItem("settings")) };
 
+////////////////////////////////////
+// const middleware = applyMiddleware(
+//   routerMiddleware(browserHistory),
+//   thunkMiddleware,
+//   authStateMiddleware
+// );
+
+// const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+/////////////////////////////////////
+
 //Create store
 const store = createStoreWithFirebase(
   rootReducer,
   initialState,
   compose(
-    reactReduxFirebase(firebase),
-    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+    reactReduxFirebase(firebase)
+    // window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+    // composeEnhancers(middleware)
   )
 );
 
