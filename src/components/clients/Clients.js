@@ -25,7 +25,6 @@ class Clients extends Component {
 
     return null;
   }
-
   render() {
     const { clients } = this.props;
     const { totalOwed } = this.state;
@@ -34,12 +33,15 @@ class Clients extends Component {
       return (
         <div>
           <div className="row">
-            <div className="col-md-6">
+            <div className="col-md-12">
               <h2>
                 <i className="fas fa-users" /> Clients
               </h2>
             </div>
-            <div className="col-md-6">
+            <div
+              className="col-md-6"
+              style={{ float: "right", overflow: "hidden" }}
+            >
               <h5 className="text-right text-secondary">
                 Total Owed{" "}
                 <span className="text-primary">
@@ -48,35 +50,37 @@ class Clients extends Component {
               </h5>
             </div>
           </div>
-          <table className="table table-striped">
-            <thead className="thead-inverse">
-              <tr>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Balance</th>
-                <th />
-              </tr>
-            </thead>
-            <tbody>
-              {clients.map(client => (
-                <tr key={client.id}>
-                  <td>
-                    {client.firstName} {client.lastName}
-                  </td>
-                  <td>{client.email}</td>
-                  <td>${parseFloat(client.balance).toFixed(2)}</td>
-                  <td>
-                    <Link
-                      to={`/client/${client.id}`}
-                      className="btn btn-secondary btn-sm"
-                    >
-                      <i className="fas fa-arrow-circle-right" /> Details
-                    </Link>
-                  </td>
+          <div className="table-responsive-md" style={{ overflowY: "hidden" }}>
+            <table className="table table-striped">
+              <thead className="thead-inverse">
+                <tr>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Balance</th>
+                  <th />
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {clients.map(client => (
+                  <tr key={client.id}>
+                    <td>
+                      {client.firstName} {client.lastName}
+                    </td>
+                    <td>{client.email}</td>
+                    <td>${parseFloat(client.balance).toFixed(2)}</td>
+                    <td>
+                      <Link
+                        to={`/client/${client.id}`}
+                        className="btn btn-secondary btn-sm"
+                      >
+                        <i className="fas fa-arrow-circle-right" /> Details
+                      </Link>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       );
     } else {

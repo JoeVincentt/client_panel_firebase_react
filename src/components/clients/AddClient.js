@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import { compose } from "redux";
 import { connect } from "react-redux";
 import { firestoreConnect } from "react-redux-firebase";
+import store from "../../store";
 
 class AddClient extends Component {
   state = {
@@ -11,7 +12,8 @@ class AddClient extends Component {
     lastName: "",
     email: "",
     phone: "",
-    balance: ""
+    balance: "",
+    userUID: store.getState().firebase.auth.uid
   };
 
   onChange = e => this.setState({ [e.target.name]: e.target.value });
@@ -19,12 +21,13 @@ class AddClient extends Component {
   onSubmit = e => {
     const newClient = this.state;
     const { firestore, history } = this.props;
-
     //If no balance, make 0
     if (newClient.balance === "") {
       newClient.balance = 0;
     }
 
+    console.log(store.getState().firebase.auth.uid);
+    console.log(this.state);
     firestore
       .add({ collection: "clients" }, newClient)
       .then(() => history.push("/"));
