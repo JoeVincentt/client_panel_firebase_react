@@ -5,6 +5,7 @@ import { compose } from "redux";
 import { connect } from "react-redux";
 import { firestoreConnect } from "react-redux-firebase";
 import Spinner from "../layout/Spinner";
+import store from "../../store";
 
 class EditClient extends Component {
   constructor(props) {
@@ -43,91 +44,112 @@ class EditClient extends Component {
   render() {
     const { client } = this.props;
     const { disableBalanceOnEdit } = this.props.settings;
+    const storeUID = store.getState().firebase.auth.uid;
 
     if (client) {
-      return (
-        <div>
-          <div className="row">
-            <div className="col-md-6">
-              <Link to="/" className="btn btn-link">
-                <i className="fas fa-arrow-circle-left" />
-                Back To Dashboard
-              </Link>
+      if (client.userUID === storeUID) {
+        return (
+          <div>
+            <div className="row">
+              <div className="col-md-6">
+                <Link to="/" className="btn btn-link">
+                  <i className="fas fa-arrow-circle-left" />
+                  Back To Dashboard
+                </Link>
+              </div>
             </div>
-          </div>
 
-          <div className="card">
-            <div className="card-header">Edit Client</div>
-            <div className="card-body">
-              <form onSubmit={this.onSubmit}>
-                <div className="form-group">
-                  <label htmlFor="firstName">First Name</label>
+            <div className="card">
+              <div className="card-header">Edit Client</div>
+              <div className="card-body">
+                <form onSubmit={this.onSubmit}>
+                  <div className="form-group">
+                    <label htmlFor="firstName">First Name</label>
+                    <input
+                      className="form-control"
+                      type="text"
+                      name="firstName"
+                      minLength="2"
+                      required
+                      ref={this.firstNameInput}
+                      defaultValue={client.firstName}
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="lastName">Last Name</label>
+                    <input
+                      className="form-control"
+                      type="text"
+                      name="lastName"
+                      minLength="2"
+                      required
+                      ref={this.lastNameInput}
+                      defaultValue={client.lastName}
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="email">Email</label>
+                    <input
+                      className="form-control"
+                      type="email"
+                      name="email"
+                      required
+                      ref={this.emailInput}
+                      defaultValue={client.email}
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="phone">Phone</label>
+                    <input
+                      className="form-control"
+                      type="number"
+                      name="phone"
+                      minLength="10"
+                      required
+                      ref={this.phoneInput}
+                      defaultValue={client.phone}
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="balance">Balance</label>
+                    <input
+                      className="form-control"
+                      type="number"
+                      name="balance"
+                      ref={this.balanceInput}
+                      defaultValue={client.balance}
+                      disabled={disableBalanceOnEdit}
+                    />
+                  </div>
                   <input
-                    className="form-control"
-                    type="text"
-                    name="firstName"
-                    minLength="2"
-                    required
-                    ref={this.firstNameInput}
-                    defaultValue={client.firstName}
+                    type="submit"
+                    value="Submit"
+                    className="btn btn-primary btn-block"
                   />
-                </div>
-                <div className="form-group">
-                  <label htmlFor="lastName">Last Name</label>
-                  <input
-                    className="form-control"
-                    type="text"
-                    name="lastName"
-                    minLength="2"
-                    required
-                    ref={this.lastNameInput}
-                    defaultValue={client.lastName}
-                  />
-                </div>
-                <div className="form-group">
-                  <label htmlFor="email">Email</label>
-                  <input
-                    className="form-control"
-                    type="email"
-                    name="email"
-                    required
-                    ref={this.emailInput}
-                    defaultValue={client.email}
-                  />
-                </div>
-                <div className="form-group">
-                  <label htmlFor="phone">Phone</label>
-                  <input
-                    className="form-control"
-                    type="number"
-                    name="phone"
-                    minLength="10"
-                    required
-                    ref={this.phoneInput}
-                    defaultValue={client.phone}
-                  />
-                </div>
-                <div className="form-group">
-                  <label htmlFor="balance">Balance</label>
-                  <input
-                    className="form-control"
-                    type="number"
-                    name="balance"
-                    ref={this.balanceInput}
-                    defaultValue={client.balance}
-                    disabled={disableBalanceOnEdit}
-                  />
-                </div>
-                <input
-                  type="submit"
-                  value="Submit"
-                  className="btn btn-primary btn-block"
-                />
-              </form>
+                </form>
+              </div>
             </div>
           </div>
-        </div>
-      );
+        );
+      } else {
+        return (
+          <div>
+            <div className="row">
+              <div className="col-md-6">
+                <Link to="/" className="btn btn-link">
+                  <i className="fas fa-arrow-circle-left" />
+                  Back To Dashboard
+                </Link>
+              </div>
+            </div>
+            <div className="container">
+              <p className="text text-secondary text-center">
+                Client does not belong to this User 404 NOT FOUND
+              </p>
+            </div>
+          </div>
+        );
+      }
     } else {
       return <Spinner />;
     }

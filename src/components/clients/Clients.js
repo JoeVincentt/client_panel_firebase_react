@@ -5,6 +5,7 @@ import { compose } from "redux";
 import { connect } from "react-redux";
 import { firestoreConnect } from "react-redux-firebase";
 import Spinner from "../layout/Spinner";
+import store from "../../store";
 
 class Clients extends Component {
   state = {
@@ -28,8 +29,19 @@ class Clients extends Component {
   render() {
     const { clients } = this.props;
     const { totalOwed } = this.state;
+    const storeUID = store.getState().firebase.auth.uid;
 
+    //Make clients Unique to each User
+    let filteredClients = [];
     if (clients) {
+      for (let i = 0; i < clients.length; i++) {
+        if (clients[i].userUID === storeUID) {
+          filteredClients.push(clients[i]);
+        }
+      }
+    }
+
+    if (filteredClients) {
       return (
         <div>
           <div className="row">
@@ -61,7 +73,7 @@ class Clients extends Component {
                 </tr>
               </thead>
               <tbody>
-                {clients.map(client => (
+                {filteredClients.map(client => (
                   <tr key={client.id}>
                     <td>
                       {client.firstName} {client.lastName}

@@ -26,8 +26,6 @@ class AddClient extends Component {
       newClient.balance = 0;
     }
 
-    console.log(store.getState().firebase.auth.uid);
-    console.log(this.state);
     firestore
       .add({ collection: "clients" }, newClient)
       .then(() => history.push("/"));
